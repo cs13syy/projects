@@ -4,7 +4,7 @@
 
 ## 1) 아마존 "sunscreen" 검색 결과 1~10 페이지 크롤링
 
-'''R   
+```R   
 # 패키지 가져오기
 library(rvest)
 library(wordcloud)
@@ -36,4 +36,4 @@ for (i in 1:10){
   total_link <- rbind(total_link, link_sun, stringsAsFactors=FALSE)
   cat(i, "\n")
 }
-'''
+```
