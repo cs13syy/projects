@@ -4,7 +4,7 @@
 
 ## 1) 아마존 "sunscreen" 검색 결과 1~10 페이지 크롤링
 - 1. 패키지 가져오기<br/>2. 베이스 url 설정 및 데이터프레임 생성<br/>3. 상품명, 가격, 링크 정보 가져오기<br/> 
-'''
+<pre>
 library(rvest)
 library(wordcloud)
 library(RColorBrewer)
@@ -33,7 +33,7 @@ for (i in 1:10){
   total_link <- rbind(total_link, link_sun, stringsAsFactors=FALSE)
   cat(i, "\n")
 }
-'''
+<code>
 
 ## 2) 상품명 전처리 및 시각화
 '''
