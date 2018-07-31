@@ -139,4 +139,4 @@ wordcloud(split_name_vec, min.freq=5,
 ```
 
 ## 4. 분석 결과
-<>
+<https://github.com/cs13syy/projects/blob/master/amazon-listing-optimization/amazon-listing-analysis-pdf.pdf>
