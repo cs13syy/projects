@@ -1,8 +1,18 @@
 # 아마존 리스팅 최적화를 위한 텍스트 분석
+## 1. 프로젝트 주제 선정 배경
 - 아마존 소비자들의 70%가 검색 결과 1 페이지에서 구매 결정을 내리는 만큼, 자사 제품이 검색 결과 상위에 노출될 수 있는 방안을 마련하는 것은 브랜드에게 매우 중요한 과제다. 상품의 리스팅 최적화, 즉 소비자가 아마존 검색 결과를 통해 원하는 정보를 얻고 구매하는 데 최적화된 리스팅(이름, 가격, 리뷰 등)을 작성하는 것은 검색 결과 상위 노출을 위한 제 1 전략으로 알려져 있다.<br/>
 - 따라서 본 프로젝트에서는 하나의 판매 상품을 가정하고, 해당 카테고리의 상위 10 페이지에 노출된 상품들의 리스팅 텍스트 분석을 실시한다. 더불어 분석 내용을 바탕으로 판매 상품에 적용할 수 있는 실행 방안을 제안하는 것을 목표로 한다.<br/>
 
-## 1) 아마존 "sunscreen" 검색 결과 1~10 페이지 크롤링
+## 2. 분석 내용 및 소스 설명
+- 판매 상품을 자외선 차단제로 가정한다. 자외선 차단제 검색 키워드인 sunscreen의 검색 결과 1~10 페이지에 노출된 상품명, 가격, 리뷰를 크롤링해 텍스트 분석을 실시한다. 
+- 10개 페이지 상위 노출 상품들의 상품명을 단어 단위로 쪼개 빈도수를 분석하고, 워드클라우드와 막대 그래프로 단어 출현 빈도 수를 시각화 한다.
+- 10개 페이지 상위 노출 상품들의 가격대를 수집하여 평균, 분산, 중앙값, 분위수, 이상치 등의 기술통계량을 확인하고, 상자 그림을 통해 주 가격대의 범위를 시각화하고, 가격대가 어떠한 형태로 분포로 구성되어 있는지 히스토그램과 밀도 함수로 확인한다.
+- 상위 노출 10개 상품을 선정하여(동일 브랜드 제품 제외) 각 상품의 10개 페이지의 리뷰를 수집, 출현 빈도수가 높은 단어를 워드 클라우드로 시각화 한다. 
+- 분석 도구로 R을 사용하였으며, 미국 아마존 웹사이트(https://www.amazon.com)에서 데이터를 수집했다.
+
+## 3. 실행 코드
+
+### 1) 아마존 "sunscreen" 검색 결과 1~10 페이지 크롤링
 
 ```R   
 # 패키지 가져오기
@@ -38,7 +48,7 @@ for (i in 1:10){
 }
 ```
 
-## 2) 상품명 전처리 및 시각화
+### 2) 상품명 전처리 및 시각화
 ```R
 # total_name의 벡터 변환, unique 값 추출, 파싱
 unlist_name <- tolower(unlist(total_name))
@@ -55,7 +65,8 @@ wordcloud(split_name_vec, min.freq=4,
 name <- c("sunscreen", "spf", "broad", "spectrum", "oz", "lotion")
 num <- c(160, 114, 60, 60, 52, 50)
 top_6 <- data.frame(name, num)
-ggplot(data=top_6, aes(x=reorder(name, num), y=num)) + geom_bar(stat="identity", fill="violetred1") + ggtitle("Top 6 Words in Title") + coord_flip()
+ggplot(data=top_6, aes(x=reorder(name, num), y=num)) + geom_bar(stat="identity", fill="violetred1") 
++ ggtitle("Top 6 Words in Title") + coord_flip()
 
 # 상품명 키워드 TOP 30 시각화
 split_name_vec_sort <- sort(table(split_name_vec), decreasing=T)
@@ -69,7 +80,7 @@ barplot(split_name_vec_bar_2, main = "19th~30th Words in Title",
         col="springgreen3")
 ```
 
-## 3) 상품가격 전처리 및 시각화
+### 3) 상품가격 전처리 및 시각화
 ```R
 # total_price의 벡터 변환, 파싱, 단일 가격 추출, 기술 통계량 확인, 시각화
 unlist_price <- unlist(total_price)
@@ -87,7 +98,7 @@ hist(unlist_price, main="Histogram and Density Plot of Price",
 lines(density(unlist_price), col="tomato1", lty=1, lwd=5)
 ```
 
-## 4) 아마존 "sunscreen" 검색 결과 TOP 10 상품의 리뷰 1~10 페이지 크롤링
+### 4) 아마존 "sunscreen" 검색 결과 TOP 10 상품의 리뷰 1~10 페이지 크롤링
 ```R
 # sunscreen 카테고리 상위 10개 상품의 리뷰 10 페이지 수집
 # 1 : Sun-Bum-Moisturizing-SPF-Hypoallergenic
@@ -106,7 +117,7 @@ for (i in 1:10){
 }
 ```
 
-## 5) TOP 10 상품의 리뷰 데이터 전처리, 병합, 시각화
+### 5) TOP 10 상품의 리뷰 데이터 전처리, 병합, 시각화
 ```R
 names(total_rev) = c(1:10)
 unlist_rev <- unlist(total_rev)
@@ -126,3 +137,6 @@ sorted_total_review[101:200]
 wordcloud(split_name_vec, min.freq=5,
           colors=brewer.pal(8, "Dark2"))
 ```
+
+## 4. 분석 결과
+<>
