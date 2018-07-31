@@ -35,8 +35,8 @@ for (i in 1:10){
   total_link <- rbind(total_link, link_sun, stringsAsFactors=FALSE)
   cat(i, "\n")
 }
-<code>
-
+<code> <br/>
+  
 ## 2) 상품명 전처리 및 시각화
 <pre>
 # total_name의 벡터 변환, unique 값 추출, 파싱
