@@ -3,7 +3,7 @@
 - 따라서 본 프로젝트에서는 하나의 판매 상품을 가정하고, 해당 카테고리의 상위 10 페이지에 노출된 상품들의 리스팅 텍스트 분석을 실시한다. 더불어 분석 내용을 바탕으로 판매 상품에 적용할 수 있는 실행 방안을 제안하는 것을 목표로 한다.<br/>
 
 ## 1) 아마존 "sunscreen" 검색 결과 1~10 페이지 크롤링
-<pre>
+'''
 # 패키지 가져오기
 library(rvest)
 library(wordcloud)
@@ -35,12 +35,10 @@ for (i in 1:10){
   total_link <- rbind(total_link, link_sun, stringsAsFactors=FALSE)
   cat(i, "\n")
 }
-<code> <br/>
-
-아마존
+'''
 
 ## 2) 상품명 전처리 및 시각화
-<pre>
+'''
 # total_name의 벡터 변환, unique 값 추출, 파싱
 unlist_name <- tolower(unlist(total_name))
 unq_unlist_name <- unique(unlist_name)
@@ -68,10 +66,10 @@ split_name_vec_bar_2 <- split_name_vec_bar[19:30]
 barplot(split_name_vec_bar_2, main = "19th~30th Words in Title", 
         xlab="words", ylab = "numbers", ylim=c(0,40), 
         col="springgreen3")
-<code>
+'''
 
 ## 3) 상품가격 전처리 및 시각화
-<pre>
+'''
 # total_price의 벡터 변환, 파싱, 단일 가격 추출, 기술 통계량 확인, 시각화
 unlist_price <- unlist(total_price)
 unlist_price <- gsub('\\$','',unlist_price)
@@ -86,10 +84,10 @@ hist(unlist_price, main="Histogram and Density Plot of Price",
      xlim=c(0,100), ylim=c(0,0.09), freq=FALSE, xlab="price", 
      breaks=50, col="mediumaquamarine")
 lines(density(unlist_price), col="tomato1", lty=1, lwd=5)
-<code>
+'''
 
 ## 4) 아마존 "sunscreen" 검색 결과 TOP 10 상품의 리뷰 1~10 페이지 크롤링
-<pre>
+'''
 # sunscreen 카테고리 상위 10개 상품의 리뷰 10 페이지 수집
 # 1 : Sun-Bum-Moisturizing-SPF-Hypoallergenic
 base_url_1 = "https://www.amazon.com/Sun-Bum-Moisturizing-SPF-Hypoallergenic/
@@ -105,10 +103,10 @@ for (i in 1:10){
   total_rev <- rbind(total_rev, review, stringsAsFactors=FALSE)
   cat(i, "\n")
 }
-<code>
+'''
 
 ## 5) TOP 10 상품의 리뷰 데이터 전처리, 병합, 시각화
-<pre>
+'''
 names(total_rev) = c(1:10)
 unlist_rev <- unlist(total_rev)
 split_rev_vec <- strsplit(unlist_rev, " ", fixed=TRUE)
@@ -126,4 +124,4 @@ sorted_total_review[101:200]
 # total_name의 워드클라우드
 wordcloud(split_name_vec, min.freq=5,
           colors=brewer.pal(8, "Dark2"))
-<code>
+'''
